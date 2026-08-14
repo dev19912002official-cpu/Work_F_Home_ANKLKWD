@@ -3,9 +3,15 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>HANDWRITING Work From home | Premium Book Writing Projects</title>
     <meta name="description" content="Join HANDWRITING Work From home for premium remote book writing projects. Work from home, weekly payments, 100% trusted projects." />
+    <meta name="theme-color" content="#151C2E" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="HANDWRITING WFH" />
+    <meta name="format-detection" content="telephone=no" />
     <!-- Open Graph / Social Sharing Meta Tags -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="HANDWRITING Work From home | Premium Book Writing Projects" />
@@ -15,25 +21,34 @@
     <meta property="twitter:card" content="summary" />
     <meta property="twitter:title" content="HANDWRITING Work From home | Premium Book Writing Projects" />
     <meta property="twitter:description" content="Join HANDWRITING Work From home for premium remote book writing projects. Work from home, weekly payments, 100% trusted projects." />
-    <!-- Google Fonts Poppins -->
+    <!-- Google Fonts: Fraunces (display/serif), Inter (body), JetBrains Mono (ledger figures) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     <style>
       /* --- Custom CSS --- */
       :root {
-        --primary: #3b82f6; /* Blue */
-        --secondary: #8b5cf6; /* Purple */
-        --gradient-primary: linear-gradient(135deg, #3b82f6, #8b5cf6);
-        --gradient-hover: linear-gradient(135deg, #2563eb, #7c3aed);
-        --bg-light: #f8fafc;
-        --text-main: #0f172a;
-        --text-muted: #475569;
-        --card-bg: rgba(255, 255, 255, 0.75);
-        --border-color: rgba(226, 232, 240, 0.8);
-        --glass-shadow: 0 10px 32px 0 rgba(31, 38, 135, 0.04);
+        /* Manuscript & ink palette — built for a handwriting/publishing brand,
+           not the generic blue/purple SaaS look */
+        --primary: #8a6a24;        /* antique brass */
+        --secondary: #6f2836;      /* oxblood / leather-bound cover */
+        --ink: #151c2e;            /* deep ink-navy */
+        --gradient-primary: linear-gradient(135deg, #a5822f, #8a6a24);
+        --gradient-hover: linear-gradient(135deg, #93701f, #74561a);
+        --bg-light: #f8f4ea;       /* aged paper */
+        --paper-alt: #efe6d1;
+        --text-main: #1c2333;
+        --text-muted: #5c5f6b;
+        --card-bg: rgba(255, 253, 247, 0.82);
+        --border-color: rgba(139, 118, 74, 0.22);
+        --glass-shadow: 0 10px 32px 0 rgba(21, 28, 46, 0.05);
         --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --font-display: 'Fraunces', Georgia, serif;
+        --font-body: 'Inter', sans-serif;
+        --font-mono: 'JetBrains Mono', monospace;
       }
+      /* kept for any leftover references */
+      :root { --secondary: #6f2836; }
 
       * {
         box-sizing: border-box;
@@ -43,10 +58,26 @@
 
       html {
         scroll-behavior: smooth;
-        font-family: 'Poppins', sans-serif;
+        font-family: var(--font-body);
         color: var(--text-main);
         background-color: var(--bg-light);
+        background-image:
+          radial-gradient(rgba(139, 118, 74, 0.07) 1px, transparent 1px);
+        background-size: 22px 22px;
         overflow-x: hidden;
+      }
+
+      h1, h2, h3, .hero-title, .section-title, .cta-title, .brand-logo-text {
+        font-family: var(--font-display);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation-duration: 0.001ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.001ms !important;
+          scroll-behavior: auto !important;
+        }
       }
 
       /* Glowing background highlights */
@@ -54,7 +85,7 @@
         position: absolute;
         width: 400px;
         height: 400px;
-        background: radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, rgba(59, 130, 246, 0.05) 100%);
+        background: radial-gradient(circle, rgba(111, 40, 54, 0.08) 0%, rgba(138, 106, 36, 0.05) 100%);
         border-radius: 50%;
         filter: blur(80px);
         z-index: -1;
@@ -66,8 +97,9 @@
 
       /* Top Timer Bar */
       .timer-bar {
-        background: linear-gradient(135deg, rgba(59, 130, 246, 0.95), rgba(139, 92, 246, 0.95));
-        color: white;
+        background: linear-gradient(135deg, #1b2338, #151c2e);
+        border-bottom: 1px solid rgba(212, 175, 106, 0.35);
+        color: #f3ead4;
         padding: 5px 20px;
         text-align: center;
         display: flex;
@@ -76,7 +108,7 @@
         gap: 12px;
         font-size: 0.85rem;
         font-weight: 500;
-        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.15);
+        box-shadow: 0 4px 15px rgba(138, 106, 36, 0.15);
         position: sticky;
         top: 0;
         z-index: 1100;
@@ -104,10 +136,12 @@
       }
 
       .countdown-val {
-        background: rgba(255, 255, 255, 0.2);
+        background: rgba(212, 175, 106, 0.18);
+        color: #f0d999;
         padding: 2px 8px;
         border-radius: 4px;
         font-weight: 700;
+        font-family: var(--font-mono);
         min-width: 32px;
         display: inline-block;
         font-variant-numeric: tabular-nums;
@@ -186,16 +220,20 @@
       }
 
       .brand-logo {
-        font-size: 1.35rem;
-        font-weight: 800;
-        letter-spacing: -0.5px;
-        background: var(--gradient-primary);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
         text-decoration: none;
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
+      }
+
+      .brand-logo-text {
+        font-size: 1.2rem;
+        font-weight: 600;
+        letter-spacing: -0.3px;
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        line-height: 1.2;
       }
 
       /* Buttons & CTAs */
@@ -218,13 +256,13 @@
       .btn-primary {
         background: var(--gradient-primary);
         color: white;
-        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.25);
+        box-shadow: 0 4px 15px rgba(138, 106, 36, 0.25);
       }
 
       .btn-primary:hover {
         background: var(--gradient-hover);
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(59, 130, 246, 0.35);
+        box-shadow: 0 6px 20px rgba(138, 106, 36, 0.35);
       }
 
       .btn-outline {
@@ -259,12 +297,35 @@
         position: relative;
       }
 
-      /* Hero Section */
+      /* Hero Section — the "book cover": deep ink panel, brass foil type */
+      #hero {
+        background: linear-gradient(180deg, #151c2e 0%, #1a2338 100%);
+        padding-top: 64px;
+        padding-bottom: 110px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      #hero .bg-glow { opacity: 0.6; }
+
+      .deckle-divider {
+        position: absolute;
+        left: 0;
+        bottom: -1px;
+        width: 100%;
+        height: 54px;
+        line-height: 0;
+      }
+
+      .deckle-divider svg { width: 100%; height: 100%; display: block; }
+
       .hero-grid {
         display: grid;
         grid-template-columns: 1.1fr 0.9fr;
         gap: 48px;
         align-items: center;
+        position: relative;
+        z-index: 1;
       }
 
       .hero-left {
@@ -272,45 +333,50 @@
       }
 
       .hero-badge {
-        background: rgba(59, 130, 246, 0.08);
-        border: 1px solid rgba(59, 130, 246, 0.15);
-        color: var(--primary);
-        padding: 6px 14px;
+        background: transparent;
+        border: 1.5px dashed rgba(212, 175, 106, 0.55);
+        color: #d4af6a;
+        padding: 6px 16px;
         border-radius: 30px;
-        font-size: 0.85rem;
-        font-weight: 600;
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
         display: inline-flex;
         align-items: center;
-        gap: 6px;
-        margin-bottom: 20px;
+        gap: 8px;
+        margin-bottom: 22px;
+        transform: rotate(-1.5deg);
       }
 
       .hero-title {
-        font-size: 3.25rem;
+        font-size: clamp(2.1rem, 5.5vw, 3.4rem);
         line-height: 1.15;
-        font-weight: 800;
-        color: var(--text-main);
-        letter-spacing: -1.5px;
-        margin-bottom: 16px;
+        font-weight: 700;
+        color: #f7f1e0;
+        letter-spacing: -1px;
+        margin-bottom: 18px;
       }
 
       .hero-title span {
-        background: var(--gradient-primary);
+        background: linear-gradient(135deg, #ecc98a, #b8874a);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+        font-style: italic;
       }
 
       .hero-subtitle {
-        font-size: 1.25rem;
-        color: var(--secondary);
+        font-size: 1.2rem;
+        color: #d4af6a;
         font-weight: 600;
         margin-bottom: 12px;
+        font-family: var(--font-display);
       }
 
       .hero-desc {
-        font-size: 1.1rem;
-        color: var(--text-muted);
-        line-height: 1.6;
+        font-size: 1.05rem;
+        color: rgba(243, 234, 212, 0.78);
+        line-height: 1.65;
         margin-bottom: 32px;
       }
 
@@ -328,11 +394,11 @@
       }
 
       .hero-img-wrapper {
-        border-radius: 24px;
+        border-radius: 6px;
         overflow: hidden;
-        box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
-        background: white;
-        border: 4px solid white;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(212, 175, 106, 0.25);
+        background: #f7f1e0;
+        border: 8px solid #f7f1e0;
         transition: var(--transition);
         animation: floatImg 6s ease-in-out infinite;
         max-width: 100%;
@@ -398,9 +464,9 @@
       }
 
       .section-title {
-        font-size: 2.35rem;
-        font-weight: 800;
-        letter-spacing: -1px;
+        font-size: clamp(1.65rem, 4.2vw, 2.35rem);
+        font-weight: 700;
+        letter-spacing: -0.5px;
         color: var(--text-main);
       }
 
@@ -427,12 +493,12 @@
 
       .about-card:hover {
         transform: translateY(-5px);
-        border-color: rgba(59, 130, 246, 0.3);
-        box-shadow: 0 15px 35px rgba(59, 130, 246, 0.05);
+        border-color: rgba(138, 106, 36, 0.3);
+        box-shadow: 0 15px 35px rgba(138, 106, 36, 0.05);
       }
 
       .about-icon-wrapper {
-        background: rgba(59, 130, 246, 0.08);
+        background: rgba(138, 106, 36, 0.08);
         color: var(--primary);
         padding: 12px;
         border-radius: 14px;
@@ -443,7 +509,7 @@
       }
 
       .about-card:nth-child(even) .about-icon-wrapper {
-        background: rgba(139, 92, 246, 0.08);
+        background: rgba(111, 40, 54, 0.08);
         color: var(--secondary);
       }
 
@@ -494,8 +560,8 @@
 
       .trust-badge-item:hover {
         transform: translateY(-2px);
-        border-color: rgba(59, 130, 246, 0.2);
-        box-shadow: 0 8px 20px rgba(59, 130, 246, 0.05);
+        border-color: rgba(138, 106, 36, 0.2);
+        box-shadow: 0 8px 20px rgba(138, 106, 36, 0.05);
       }
 
       .trust-badge-item svg {
@@ -546,7 +612,7 @@
       }
 
       .project-table tbody tr:hover {
-        background: rgba(59, 130, 246, 0.02);
+        background: rgba(138, 106, 36, 0.02);
       }
 
       .project-table tbody tr:hover td {
@@ -560,10 +626,11 @@
 
       .reward-tag {
         background: rgba(16, 185, 129, 0.1);
-        color: #10b981;
+        color: #0d7d59;
         padding: 6px 14px;
-        border-radius: 100px;
+        border-radius: 4px;
         font-weight: 700;
+        font-family: var(--font-mono);
         display: inline-block;
       }
 
@@ -599,7 +666,7 @@
 
       .process-step:hover .process-icon-outer {
         border-color: var(--primary);
-        box-shadow: 0 10px 25px rgba(59, 130, 246, 0.12);
+        box-shadow: 0 10px 25px rgba(138, 106, 36, 0.12);
         transform: translateY(-4px);
         color: var(--secondary);
       }
@@ -618,7 +685,7 @@
         justify-content: center;
         font-size: 0.8rem;
         font-weight: 700;
-        box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
+        box-shadow: 0 4px 10px rgba(138, 106, 36, 0.2);
       }
 
       .process-title {
@@ -659,8 +726,9 @@
       }
 
       .counter-number {
-        font-size: 3.25rem;
-        font-weight: 800;
+        font-size: clamp(2.1rem, 5vw, 3.25rem);
+        font-weight: 700;
+        font-family: var(--font-mono);
         background: var(--gradient-primary);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -695,8 +763,8 @@
 
       .review-card:hover {
         transform: translateY(-5px);
-        border-color: rgba(59, 130, 246, 0.2);
-        box-shadow: 0 15px 35px rgba(59, 130, 246, 0.05);
+        border-color: rgba(138, 106, 36, 0.2);
+        box-shadow: 0 15px 35px rgba(138, 106, 36, 0.05);
       }
 
       .review-author {
@@ -782,7 +850,7 @@
       }
 
       .faq-header:hover {
-        background: rgba(59, 130, 246, 0.01);
+        background: rgba(138, 106, 36, 0.01);
       }
 
       .faq-question {
@@ -817,8 +885,8 @@
 
       /* Active states for FAQ Accordion */
       .faq-item.active {
-        border-color: rgba(59, 130, 246, 0.3);
-        box-shadow: 0 10px 25px rgba(59, 130, 246, 0.03);
+        border-color: rgba(138, 106, 36, 0.3);
+        box-shadow: 0 10px 25px rgba(138, 106, 36, 0.03);
       }
 
       .faq-item.active .faq-toggle {
@@ -837,12 +905,12 @@
       }
 
       .cta-card {
-        background: linear-gradient(135deg, rgba(59, 130, 246, 0.95), rgba(139, 92, 246, 0.95));
+        background: linear-gradient(135deg, rgba(138, 106, 36, 0.95), rgba(111, 40, 54, 0.95));
         border-radius: 32px;
         padding: 60px 40px;
         text-align: center;
         color: white;
-        box-shadow: 0 20px 50px rgba(59, 130, 246, 0.2);
+        box-shadow: 0 20px 50px rgba(138, 106, 36, 0.2);
         position: relative;
         overflow: hidden;
       }
@@ -859,10 +927,10 @@
       .cta-bubble-2 { width: 300px; height: 300px; bottom: -150px; right: -50px; }
 
       .cta-title {
-        font-size: 2.5rem;
-        font-weight: 800;
+        font-size: clamp(1.75rem, 5vw, 2.5rem);
+        font-weight: 700;
         margin-bottom: 16px;
-        letter-spacing: -1px;
+        letter-spacing: -0.5px;
       }
 
       .cta-desc {
@@ -893,12 +961,17 @@
 
       /* Footer Section */
       footer {
-        background: white;
-        border-top: 1px solid var(--border-color);
+        background: #151c2e;
         padding: 40px 0;
         font-size: 0.9rem;
-        color: var(--text-muted);
+        color: rgba(243, 234, 212, 0.65);
       }
+
+      .footer-left { color: #f3ead4 !important; }
+      .footer-center { color: rgba(243, 234, 212, 0.65); }
+      .footer-center svg { color: #d4af6a !important; }
+      .footer-right a { color: #d4af6a !important; }
+      .footer-right a:hover { color: #ecc98a !important; }
 
       .footer-grid {
         display: flex;
@@ -963,6 +1036,17 @@
         section {
           padding: 50px 0;
         }
+        #hero {
+          padding-top: 32px;
+          padding-bottom: 70px;
+        }
+        .deckle-divider {
+          height: 32px;
+        }
+        .hero-badge {
+          font-size: 0.7rem;
+          padding: 5px 12px;
+        }
         .timer-bar {
           position: relative !important;
           top: auto !important;
@@ -984,14 +1068,17 @@
         .nav-header.scrolled {
           padding: 10px 16px !important;
         }
-        .brand-logo {
-          font-size: 1.05rem !important;
-          font-weight: 800;
-          letter-spacing: -0.3px;
+        .brand-avatar-frame {
+          width: 32px !important;
+          height: 32px !important;
+        }
+        .brand-logo-text {
+          font-size: 0.95rem !important;
+          letter-spacing: -0.2px;
         }
         #telegramBtnHeader {
           font-size: 0.8rem !important;
-          padding: 6px 12px !important;
+          padding: 10px 14px !important;
           border-radius: 8px;
         }
         .hero-title {
@@ -1093,29 +1180,19 @@
           font-size: 0.95rem;
         }
       }
+      /* Nav brand avatar (kept scoped, unlike the old duplicate .container/.brand-logo
+         rules that used to override the whole page's layout classes) */
+      .brand-avatar-frame {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #d4af6a;
+        box-shadow: 0 2px 8px rgba(21, 28, 46, 0.15);
+        display: block;
+        flex-shrink: 0;
+      }
     </style>
-
-
-   <style>
-  .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px 0 4px;
-  }
-
-  .brand-logo {
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #ffffff;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
-    display: block;
-  }
-</style>
-
-<div class="container">
-    <img src="DP.jpg" alt="Brand Logo" class="brand-logo" width="88" height="88" onerror="this.style.display='none'">
-</div>
     <!-- Meta Pixel Code -->
     <script>
     !function(f,b,e,v,n,t,s)
@@ -1158,7 +1235,8 @@
     <!-- Header Navigation -->
     <header class="nav-header" id="navHeader">
       <a href="#" class="brand-logo" id="logoLink">
-        HANDWRITING Work From home
+        <img src="DP.jpg" alt="HANDWRITING Work From home" class="brand-avatar-frame" width="40" height="40" onerror="this.style.display='none'">
+        <span class="brand-logo-text">HANDWRITING Work From home</span>
       </a>
       <!-- TELEGRAM CTA 1 OF 4 -->
       <a href="https://t.me/work_from_homes_handwriting" target="_blank" rel="noopener noreferrer" class="btn btn-telegram btn-sm" id="telegramBtnHeader">
@@ -1217,6 +1295,12 @@
             </div>
           </div>
         </div>
+      </div>
+      <!-- Deckle-edge divider: hero "cover" tears into the paper page below -->
+      <div class="deckle-divider" aria-hidden="true">
+        <svg viewBox="0 0 1200 54" preserveAspectRatio="none">
+          <path d="M0,0 L1200,0 L1200,30 L1188,20 1176,34 1164,18 1152,32 1140,22 1128,36 1116,16 1104,30 1092,20 1080,34 1068,18 1056,32 1044,22 1032,36 1020,16 1008,30 996,20 984,34 972,18 960,32 948,22 936,36 924,16 912,30 900,20 888,34 876,18 864,32 852,22 840,36 828,16 816,30 804,20 792,34 780,18 768,32 756,22 744,36 732,16 720,30 708,20 696,34 684,18 672,32 660,22 648,36 636,16 624,30 612,20 600,34 588,18 576,32 564,22 552,36 540,16 528,30 516,20 504,34 492,18 480,32 468,22 456,36 444,16 432,30 420,20 408,34 396,18 384,32 372,22 360,36 348,16 336,30 324,20 312,34 300,18 288,32 276,22 264,36 252,16 240,30 228,20 216,34 204,18 192,32 180,22 168,36 156,16 144,30 132,20 120,34 108,18 96,32 84,22 72,36 60,16 48,30 36,20 24,34 12,18 0,32 Z" fill="#f8f4ea"></path>
+        </svg>
       </div>
     </section>
 
@@ -1810,18 +1894,48 @@
     <!-- JavaScript code -->
     <script>
       // --- Meta Pixel Tracking for Telegram ---
+      // Single source of truth for the Pixel ID — this MUST match the ID used in
+      // fbq('init', ...) above and in the <noscript> fallback, or Meta receives
+      // events on two different pixels and neither dataset looks complete.
+      const PIXEL_ID = '1538416727968242';
+      const TELEGRAM_URL = 'https://t.me/work_from_homes_handwriting';
+
+      // Fire the real Lead conversion once per session. Every button/link click
+      // is still logged as a lightweight custom event (TelegramClick) so you can
+      // see engagement in Events Manager, but only ONE Lead event goes to Meta —
+      // this keeps your Lead count matched to real intent-to-join, not button mashing.
+      let leadFired = false;
+
+      function generateEventId() {
+        if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+        return 'evt_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+      }
+
       function trackTelegramAction(actionType, url) {
-        const destUrl = url || 'https://t.me/work_from_homes_handwriting';
-        const cacheBuster = Math.random();
+        const destUrl = url || TELEGRAM_URL;
 
-        // 1. Direct Image Tracking (Extremely reliable fallback, fires instantly, bypassing JS SDK blockers)
-        const imgcontact = new Image();
-        imgcontact.src = "https://www.facebook.com/tr?id=1565962868304701&ev=Lead&noscript=1&cd[content_name]=Telegram+Join+Button&cd[action_type]=" + encodeURIComponent(actionType) + "&cd[destination]=" + encodeURIComponent(destUrl) + "&r=" + cacheBuster;
+        // Always log the click/redirect as a custom event (safe to fire every time —
+        // does not affect Lead optimization or your Lead count in Ads Manager).
+        if (typeof fbq === 'function') {
+          fbq('trackCustom', 'TelegramClick', {
+            action_type: actionType,
+            destination: destUrl
+          });
+        }
 
-        const imglead= new Image();
-        img.src = "https://www.facebook.com/tr?id=1565962868304701&ev=Lead&noscript=1&cd[content_name]=Telegram+Join+Button&cd[action_type]=" + encodeURIComponent(actionType) + "&cd[destination]=" + encodeURIComponent(destUrl) + "&r=" + cacheBuster;
+        if (leadFired) return;
+        leadFired = true;
 
-        // 2. Standard Facebook Pixel SDK Track
+        const eventId = generateEventId(); // pair this with server-side CAPI using the same event_id to dedupe
+
+        // 1. Direct image beacon — reliable fallback if fbq/JS SDK is blocked.
+        const imgLead = new Image();
+        imgLead.src = "https://www.facebook.com/tr?id=" + PIXEL_ID +
+          "&ev=Lead&noscript=1&eid=" + encodeURIComponent(eventId) +
+          "&cd[content_name]=Telegram+Join+Button&cd[action_type]=" + encodeURIComponent(actionType) +
+          "&cd[destination]=" + encodeURIComponent(destUrl) + "&r=" + Math.random();
+
+        // 2. Standard Facebook Pixel SDK track (single call — no duplicate Lead events)
         if (typeof fbq === 'function') {
           fbq('track', 'Lead', {
             content_name: 'Telegram Join Button',
@@ -1829,21 +1943,9 @@
             value: 1.0,
             currency: 'INR',
             action_type: actionType
-          });
-          fbq('track', 'Lead', {
-            content_name: 'Telegram Join Button',
-            action_type: actionType
-          });
-          fbq('trackCustom', 'TelegramClick', {
-            action_type: actionType,
-            destination: destUrl
-          });
+          }, { eventID: eventId });
         }
       }
-
-      // Fire PageView image beacon on load to ensure absolute tracking coverage
-      const imgPageView = new Image();
-      imgPageView.src = "https://www.facebook.com/tr?id=1565962868304701&ev=PageView&noscript=1&r=" + Math.random();
 
       // Track all direct clicks on anchor links pointing to t.me
       document.addEventListener('click', function(e) {
