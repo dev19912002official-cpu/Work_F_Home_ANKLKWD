@@ -1895,32 +1895,120 @@
 (function() {
   const telegramLink = "https://t.me/+vLuJSlRTZQBkYmQ1";
 
-  function initTelegramButton() {
-    const telegramBtn = document.getElementById("telegramBtn");
-    if (!telegramBtn) {
-      // Element not present on this page — bail out quietly
-      return;
-    }
+  // All 4 Telegram CTA buttons on this page (fixed: previous code looked
+  // for a single "telegramBtn" ID that doesn't exist anywhere in the HTML,
+  // so the Lead event never fired on any button)
+  const telegramBtnIds = [
+    "telegramBtnHeader",
+    "telegramBtnHeroPrimary",
+    "telegramBtnHeroSecondary",
+    "telegramBtnFooterCta"
+  ];
 
-    telegramBtn.addEventListener("click", function(e) {
-      e.preventDefault();
-      if (window.fbq) {
-        fbq('track', 'Lead', 
-          { content_name: 'Telegram Community', button_click: true },
-          { eventID: 'telegram_lead_' + Date.now() }
-        );
-      }
-      setTimeout(() => {
-        window.location.href = telegramLink;
-      }, 200);
+  function fireLeadAndRedirect(e, sourceLabel) {
+    e.preventDefault();
+    if (window.fbq) {
+      fbq('track', 'Lead',
+        { content_name: 'Telegram Community', button_click: true, cta_source: sourceLabel },
+        { eventID: 'telegram_lead_' + sourceLabel + '_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8) }
+      );
+    }
+    // Small delay so the pixel request has time to fire before navigation
+    setTimeout(() => {
+      window.location.href = telegramLink;
+    }, 200);
+  }
+
+  function initTelegramButtons() {
+    telegramBtnIds.forEach(function(id) {
+      const btn = document.getElementById(id);
+      if (!btn) return; // skip quietly if a given CTA isn't present
+      btn.addEventListener("click", function(e) {
+        fireLeadAndRedirect(e, id);
+      });
     });
   }
 
+  // --- Countdown / auto-redirect timer bar ---
+  let countdownInterval = null;
+  let countdownStopped = false;
+
+  function initCountdown() {
+    const countdownVal = document.getElementById("countdownVal");
+    const timerBar = document.getElementById("timerBar");
+    if (!countdownVal || !timerBar) return;
+
+    let secondsLeft = parseInt(countdownVal.textContent, 10) || 25;
+
+    countdownInterval = setInterval(function() {
+      if (countdownStopped) {
+        clearInterval(countdownInterval);
+        return;
+      }
+      secondsLeft -= 1;
+      if (secondsLeft <= 0) {
+        clearInterval(countdownInterval);
+        countdownVal.textContent = "0";
+        if (window.fbq) {
+          fbq('track', 'Lead',
+            { content_name: 'Telegram Community', auto_redirect: true },
+            { eventID: 'telegram_lead_autoredirect_' + Date.now() }
+          );
+        }
+        window.location.href = telegramLink;
+        return;
+      }
+      countdownVal.textContent = String(secondsLeft);
+    }, 1000);
+  }
+
+  // Called by the "Stop Timer" button (onclick="stopCountdown()")
+  window.stopCountdown = function() {
+    countdownStopped = true;
+    if (countdownInterval) clearInterval(countdownInterval);
+
+    const timerContent = document.getElementById("timerContent");
+    const stopBtn = document.getElementById("btnStopTimer");
+    const stoppedBadge = document.getElementById("timerStoppedBadge");
+
+    if (stopBtn) stopBtn.style.display = "none";
+    if (stoppedBadge) stoppedBadge.style.display = "inline-block";
+    if (timerContent) {
+      // Hide the live countdown text/icon, keep the "canceled" badge visible
+      Array.from(timerContent.children).forEach(function(child) {
+        if (child.id !== "timerStoppedBadge" && child.id !== "btnStopTimer") {
+          child.style.display = "none";
+        }
+      });
+    }
+  };
+
+  // --- FAQ accordion ---
+  // Called by each FAQ header (onclick="toggleFaq(this)")
+  window.toggleFaq = function(headerEl) {
+    const item = headerEl.closest(".faq-item");
+    if (!item) return;
+    const content = item.querySelector(".faq-content");
+    const isActive = item.classList.contains("active");
+
+    if (isActive) {
+      item.classList.remove("active");
+      if (content) content.style.maxHeight = "0px";
+    } else {
+      item.classList.add("active");
+      if (content) content.style.maxHeight = content.scrollHeight + "px";
+    }
+  };
+
+  function init() {
+    initTelegramButtons();
+    initCountdown();
+  }
+
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initTelegramButton);
+    document.addEventListener("DOMContentLoaded", init);
   } else {
-    // DOM already loaded (script placed at end of body, or added dynamically)
-    initTelegramButton();
+    init();
   }
 })();
 </script>
