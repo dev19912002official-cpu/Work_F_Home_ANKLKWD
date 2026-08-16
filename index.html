@@ -1885,212 +1885,45 @@
             <span>Trusted Publication Company</span>
           </div>
           <div class="footer-right">
-            Design By <a href="https://bharatx-website-agency.vercel.app/" target="_blank" rel="noopener noreferrer">BharatX Web Agency</a>
+            Design By <a href="https://t.me/srsagency" target="_blank" rel="noopener noreferrer">SRS Marketing Agency</a>
           </div>
         </div>
       </div>
     </footer>
 
-    <!-- JavaScript code -->
     <script>
-      // --- Meta Pixel Tracking for Telegram ---
-      // Single source of truth for the Pixel ID — this MUST match the ID used in
-      // fbq('init', ...) above and in the <noscript> fallback, or Meta receives
-      // events on two different pixels and neither dataset looks complete.
-      const PIXEL_ID = '1538416727968242';
-      const TELEGRAM_URL = 'https://t.me/+vLuJSlRTZQBkYmQ1';
+(function() {
+  const telegramLink = "https://t.me/+vLuJSlRTZQBkYmQ1";
 
-      // Fire the real Lead conversion once per session. Every button/link click
-      // is still logged as a lightweight custom event (TelegramClick) so you can
-      // see engagement in Events Manager, but only ONE Lead event goes to Meta —
-      // this keeps your Lead count matched to real intent-to-join, not button mashing.
-      let leadFired = false;
+  function initTelegramButton() {
+    const telegramBtn = document.getElementById("telegramBtn");
+    if (!telegramBtn) {
+      // Element not present on this page — bail out quietly
+      return;
+    }
 
-      function generateEventId() {
-        if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
-        return 'evt_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+    telegramBtn.addEventListener("click", function(e) {
+      e.preventDefault();
+      if (window.fbq) {
+        fbq('track', 'Lead', 
+          { content_name: 'Telegram Community', button_click: true },
+          { eventID: 'telegram_lead_' + Date.now() }
+        );
       }
+      setTimeout(() => {
+        window.location.href = telegramLink;
+      }, 200);
+    });
+  }
 
-      function trackTelegramAction(actionType, url) {
-        const destUrl = url || TELEGRAM_URL;
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initTelegramButton);
+  } else {
+    // DOM already loaded (script placed at end of body, or added dynamically)
+    initTelegramButton();
+  }
+})();
+</script>
 
-        // Always log the click/redirect as a custom event (safe to fire every time —
-        // does not affect Lead optimization or your Lead count in Ads Manager).
-        if (typeof fbq === 'function') {
-          fbq('trackCustom', 'TelegramClick', {
-            action_type: actionType,
-            destination: destUrl
-          });
-        }
-
-        if (leadFired) return;
-        leadFired = true;
-
-        const eventId = generateEventId(); // pair this with server-side CAPI using the same event_id to dedupe
-
-        // 1. Direct image beacon — reliable fallback if fbq/JS SDK is blocked.
-        const imgLead = new Image();
-        imgLead.src = "https://www.facebook.com/tr?id=" + PIXEL_ID +
-          "&ev=Lead&noscript=1&eid=" + encodeURIComponent(eventId) +
-          "&cd[content_name]=Telegram+Join+Button&cd[action_type]=" + encodeURIComponent(actionType) +
-          "&cd[destination]=" + encodeURIComponent(destUrl) + "&r=" + Math.random();
-
-        // 2. Standard Facebook Pixel SDK track (single call — no duplicate Lead events)
-        if (typeof fbq === 'function') {
-          fbq('track', 'Lead', {
-            content_name: 'Telegram Join Button',
-            content_category: 'Telegram Redirect',
-            value: 1.0,
-            currency: 'INR',
-            action_type: actionType
-          }, { eventID: eventId });
-        }
-      }
-
-      // Track all direct clicks on anchor links pointing to t.me
-      document.addEventListener('click', function(e) {
-        const anchor = e.target.closest('a');
-        if (anchor && anchor.href && anchor.href.includes('t.me')) {
-          trackTelegramAction('click', anchor.href);
-        }
-      });
-
-      // Helper function to handle safe redirection with pixel dispatch delay
-      function triggerRedirect(url) {
-        trackTelegramAction('redirect', url);
-        setTimeout(() => {
-          window.location.href = url;
-        }, 300);
-      }
-
-      // --- Sticky Header Styling ---
-      window.addEventListener('scroll', () => {
-        const header = document.getElementById('navHeader');
-        if (window.scrollY > 50) {
-          header.classList.add('scrolled');
-        } else {
-          header.classList.remove('scrolled');
-        }
-      });
-
-      // --- Countdown Timer Logic ---
-      let timeLeft = 20;
-      const countdownElement = document.getElementById('countdownVal');
-      const timerBar = document.getElementById('timerBar');
-      const stopBtn = document.getElementById('btnStopTimer');
-      const stoppedBadge = document.getElementById('timerStoppedBadge');
-      let redirectTimeout = null;
-
-      const countdownInterval = setInterval(() => {
-        timeLeft--;
-        if (timeLeft >= 0) {
-          if (countdownElement) {
-            countdownElement.textContent = timeLeft;
-          }
-        }
-
-        if (timeLeft <= 0) {
-          clearInterval(countdownInterval);
-          // Redirect user to Telegram
-          triggerRedirect("https://t.me/+vLuJSlRTZQBkYmQ1");
-        }
-      }, 1000);
-
-      function stopCountdown() {
-        clearInterval(countdownInterval);
-        
-        const timerContent = document.getElementById('timerContent');
-        if (timerContent) {
-          timerContent.innerHTML = `
-            <svg class="timer-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <polyline points="12 6 12 12 16 14"></polyline>
-            </svg>
-            <span class="blink" style="font-weight: 800; background: rgba(239, 68, 68, 0.35); padding: 2px 8px; border-radius: 4px; color: #fecaca; font-size: 0.75rem; letter-spacing: 0.5px;">STOP</span>
-            <span style="font-weight: 500;">Redirecting in 1 minute</span>
-          `;
-        }
-        
-        if (redirectTimeout) {
-          clearTimeout(redirectTimeout);
-        }
-        redirectTimeout = setTimeout(() => {
-          triggerRedirect("https://t.me/+vLuJSlRTZQBkYmQ1");
-        }, 1000);
-      }
-
-
-
-      // --- FAQ Accordion Toggle ---
-      function toggleFaq(header) {
-        const currentItem = header.parentElement;
-        const allItems = document.querySelectorAll('.faq-item');
-        const content = currentItem.querySelector('.faq-content');
-
-        // Close other items
-        allItems.forEach((item) => {
-          if (item !== currentItem && item.classList.contains('active')) {
-            item.classList.remove('active');
-            item.querySelector('.faq-content').style.maxHeight = null;
-          }
-        });
-
-        // Toggle current item
-        if (currentItem.classList.contains('active')) {
-          currentItem.classList.remove('active');
-          content.style.maxHeight = null;
-        } else {
-          currentItem.classList.add('active');
-          content.style.maxHeight = content.scrollHeight + "px";
-        }
-      }
-
-      // --- Animated Counting Logic using IntersectionObserver ---
-      const statsSection = document.getElementById('counters');
-      const counters = document.querySelectorAll('.counter-number');
-      let triggered = false;
-
-      const runCounters = () => {
-        const speed = 150; // controls counting speed
-
-        counters.forEach(counter => {
-          const updateCount = () => {
-            const target = parseInt(counter.getAttribute('data-target'), 10);
-            const suffix = counter.getAttribute('data-suffix') || '';
-            const countStr = counter.innerText;
-            
-            // Clean value from suffix to extract raw count
-            let currentVal = parseInt(countStr.replace(/[+%×]/g, ''), 10) || 0;
-            const step = Math.ceil(target / speed);
-
-            if (currentVal < target) {
-              currentVal += step;
-              if (currentVal >= target) {
-                counter.innerText = target + suffix;
-              } else {
-                counter.innerText = currentVal + suffix;
-                setTimeout(updateCount, 15);
-              }
-            } else {
-              counter.innerText = target + suffix;
-            }
-          };
-          updateCount();
-        });
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting && !triggered) {
-            triggered = true;
-            runCounters();
-          }
-        });
-      }, { threshold: 0.2 });
-
-      if (statsSection) {
-        observer.observe(statsSection);
-      }
-    </script>
   </body>
 </html>
