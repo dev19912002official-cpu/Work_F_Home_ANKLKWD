@@ -272,40 +272,38 @@ Earnings depend on performance and submission quality.
 </div>
 
 <script>
-let time = 10;
-let counter = document.getElementById("count");
-let telegramBtn = document.getElementById("telegramBtn");
+(function() {
+  const telegramLink = "https://t.me/+vLuJSlRTZQBkYmQ1";
 
-if (telegramBtn) {
-    telegramBtn.addEventListener("click", function(e){
-        e.preventDefault();
-        const telegramLink = this.href;
-
-        fbq('track','Lead',{
-            
-            content_name:'Telegram Community',
-            button_click:true
-        },{
-            eventID:'telegram_lead_'+Date.now()
-        });
-
-        setTimeout(()=>{
-            window.location.href = telegramLink;
-        },1000);
-    });
-}
-
-const countdown = setInterval(()=>{
-    time--;
-    if (counter) counter.innerText = time;
-
-    if(time <= 0){
-        clearInterval(countdown);
-        window.location.href = "https://t.me/+vLuJSlRTZQBkYmQ1";
+  function initTelegramButton() {
+    const telegramBtn = document.getElementById("telegramBtn");
+    if (!telegramBtn) {
+      // Element not present on this page — bail out quietly
+      return;
     }
-},1000);
-</script>
 
+    telegramBtn.addEventListener("click", function(e) {
+      e.preventDefault();
+      if (window.fbq) {
+        fbq('track', 'Lead',
+          { content_name: 'Telegram Community', button_click: true },
+          { eventID: 'telegram_lead_' + Date.now() }
+        );
+      }
+      setTimeout(() => {
+        window.location.href = telegramLink;
+      }, 200);
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initTelegramButton);
+  } else {
+    // DOM already loaded (script placed at end of body, or added dynamically)
+    initTelegramButton();
+  }
+})();
+</script>
 
 </body>
 </html>1
